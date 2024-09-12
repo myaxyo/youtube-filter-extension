@@ -1,9 +1,17 @@
 /**
+ * Reloads all YouTube tabs.
+ */
+function reloadYouTubeTabs() {
+    chrome.tabs.query({ url: "*://*.youtube.com/*" }, function (tabs) {
+        for (let tab of tabs) {
+            chrome.tabs.reload(tab.id);
+        }
+    });
+}
+
+/**
  * Adds a keyword to the storage and updates the UI.
  * Reloads YouTube tabs to apply new keywords.
- *
- * @event click
- * @listens document#getElementById("add-keyword")
  */
 document.getElementById("add-keyword").addEventListener("click", () => {
     const input = document.getElementById("keyword-input");
@@ -26,9 +34,6 @@ document.getElementById("add-keyword").addEventListener("click", () => {
 /**
  * Resets all keywords in the storage and updates the UI.
  * Reloads YouTube tabs on reset.
- *
- * @event click
- * @listens document#getElementById("reset-keywords")
  */
 document.getElementById("reset-keywords").addEventListener("click", () => {
     chrome.storage.sync.set({ keywords: [] }, () => {
@@ -41,9 +46,6 @@ document.getElementById("reset-keywords").addEventListener("click", () => {
 /**
  * Toggles the extension's enabled state and updates the UI.
  * Reloads YouTube tabs to apply the change.
- *
- * @event click
- * @listens document#getElementById("toggle-extension")
  */
 document.getElementById("toggle-extension").addEventListener("click", () => {
     chrome.storage.sync.get({ extensionEnabled: true }, (result) => {
@@ -103,25 +105,8 @@ function updateToggleButton() {
 
 /**
  * Initializes the popup by displaying keywords and updating the toggle button.
- *
- * @event DOMContentLoaded
- * @listens document
  */
 document.addEventListener("DOMContentLoaded", () => {
     displayKeywords();
     updateToggleButton();
 });
-
-/**
- * Reloads all YouTube tabs.
- */
-function reloadYouTubeTabs() {
-    chrome.tabs.query({ url: "*://*.youtube.com/*" }, function (tabs) {
-        for (let tab of tabs) {
-            chrome.scripting.executeScript({
-                target: { tabId: tab.id },
-                files: ["content_script.js"],
-            });
-        }
-    });
-}
