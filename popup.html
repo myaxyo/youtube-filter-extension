@@ -9,10 +9,18 @@
 
 <body>
     <h1>Keyword Filter</h1>
+
+    
+    <button id="export-keywords" class="btn">Export</button>
     <input type="text" id="keyword-input" placeholder="Add keyword">
-    <button id="add-keyword">Add</button>
-    <button id="reset-keywords">Reset</button>
-    <button id="toggle-extension">Disable</button>
+    <button id="add-keyword" class="btn">Add</button>
+    <!-- <button id="reset-keywords" class="btn">Reset</button>
+    <button id="toggle-extension" class="btn">Disable</button> -->
+    <div class="btn-group">
+        <button id="reset-keywords" class="btn">Reset</button>
+        <button id="toggle-extension" class="btn">Disable</button>
+    </div>
+    <p id="keyword-count">Keywords: 0</p>
     <ul id="keyword-list" class="clickable-list"></ul>
     <script src="popup.js"></script>
 </body>

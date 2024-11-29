@@ -1,53 +1,104 @@
+/* General body styling */
 body {
     font-family: Arial, sans-serif;
     padding: 10px;
     width: 200px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* Heading styling */
 h1 {
-    color: #333;
-    font-size: 16px;
+    color: #4CAF50;
+    font-size: 15px;
+    text-align: center;
+    margin-bottom: 10px;
 }
 
+/* Input field styling */
 input[type="text"] {
-    width: calc(100% - 22px);
-    padding: 5px;
-    margin-bottom: 5px;
+    width: calc(100% - 12px);
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
 }
 
-button {
+input[type="text"]:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+/* Button styling */
+.btn {
     width: 100%;
-    padding: 5px;
-    background-color: #4CAF50;
+    padding: 7px;
+    background-color: #000000;
     color: white;
     border: none;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
     cursor: pointer;
-    margin-bottom: 3px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-button:hover {
-    opacity: 0.8;
+.btn:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
 }
 
-ul{
+/* List styling */
+ul {
     padding-inline-start: 0;
-    padding-inline-end: 5px;
+    margin-top: 10px;
 }
 
+/* List styling */
 .clickable-list li {
     list-style-type: none;
-    margin-top: 5px;
-    color: #555;
-    width: 100%;
-    cursor: pointer;
-    padding: 5px;
-    background-color: #f0f0f0;
-    margin-bottom: 5px;
-    border-radius: 3px;
-    
+    margin: 5px 0;
+    font-size: 12px;
+    padding: 10px;
+    height:10px;
+    color: #333;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    display: flex;
+    justify-content: space-between; /* Ensure items are spaced apart */
+    align-items: center;
+    position: relative; /* For better positioning control */
 }
 
-.clickable-list li:hover {
-    color: white;
-    background-color: #e37e7e;
+.remove-button {
+    background: none;
+    border: none;
+    color: #ff5252;
+    font-size: 11px;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.2s ease;
+    margin-left: auto; /* Push the button to the far right */
+}
+.remove-button:hover {
+    color: #cd22aa;
+    transform: scale(1.1);
+}
+
+.btn-group {
+    display: flex;
+    gap: 10px; /* Space between buttons */
+    margin-bottom: 10px; /* Spacing from other elements */
+}
+
+/* Styling for buttons inside the group */
+.btn-group .btn {
+    width: auto; /* Auto width for buttons in the group */
+    flex: 1; /* Ensure both buttons take equal space */
 }
