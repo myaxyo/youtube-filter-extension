@@ -50,11 +50,3 @@ Contributions are welcome! Please follow these steps to contribute:
     git push origin feature-branch
     ```
 5. Create a pull request.
-
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
-
-## Contact
-
-For any questions or suggestions, please open an issue or contact the project maintainer at [myaxyoyev@icloud.com](mailto:myaxyoyev@icloud.com).

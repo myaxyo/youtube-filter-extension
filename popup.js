@@ -21,6 +21,7 @@ document.getElementById("add-keyword").addEventListener("click", () => {
             const { keywords } = result;
             if (!keywords.includes(keyword)) {
                 keywords.push(keyword);
+                keywords.sort(); // Sort keywords alphabetically
                 chrome.storage.sync.set({ keywords }, () => {
                     input.value = ""; // Clear input
                     displayKeywords();
@@ -36,11 +37,28 @@ document.getElementById("add-keyword").addEventListener("click", () => {
  * Reloads YouTube tabs on reset.
  */
 document.getElementById("reset-keywords").addEventListener("click", () => {
-    chrome.storage.sync.set({ keywords: [] }, () => {
-        const list = document.getElementById("keyword-list");
-        list.innerHTML = "";
-        reloadYouTubeTabs(); // Reload YouTube tabs on reset
-    });
+    // chrome.storage.sync.set({ keywords: [] }, () => {
+    //     const list = document.getElementById("keyword-list");
+    //     list.innerHTML = "";
+    //     reloadYouTubeTabs(); // Reload YouTube tabs on reset
+    // });
+    const confirmReset = confirm("Are you sure you want to reset all keywords?");
+
+    if (confirmReset) {
+
+        chrome.storage.sync.set({ keywords: [] }, () => {
+
+            const list = document.getElementById("keyword-list");
+
+            list.innerHTML = "";
+
+            updateKeywordCount(); // Update keyword count
+
+            reloadYouTubeTabs(); // Reload YouTube tabs on reset
+
+        });
+
+    }
 });
 
 /**
@@ -59,21 +77,35 @@ document.getElementById("toggle-extension").addEventListener("click", () => {
     });
 });
 
-/**
- * Displays the list of keywords from the storage in the UI.
- */
 function displayKeywords() {
     chrome.storage.sync.get({ keywords: [] }, (result) => {
         const list = document.getElementById("keyword-list");
-        list.innerHTML = "";
+        list.innerHTML = ""; // Clear existing list
+
         result.keywords.forEach((keyword) => {
+            // Create list item
             const item = document.createElement("li");
-            item.textContent = keyword;
-            item.addEventListener("click", () => removeKeyword(keyword));
+            item.className = "keyword-item";
+
+            // Keyword text
+            const span = document.createElement("span");
+            span.textContent = keyword;
+
+            // Remove button
+            const removeButton = document.createElement("button");
+            removeButton.textContent = "❌";
+            removeButton.className = "remove-button";
+            removeButton.addEventListener("click", () => removeKeyword(keyword));
+
+            // Append elements
+            item.appendChild(span);
+            item.appendChild(removeButton);
             list.appendChild(item);
         });
+        updateKeywordCount(); // Update the count of keywords
     });
 }
+
 
 /**
  * Removes a keyword from the storage and updates the UI.
@@ -103,10 +135,82 @@ function updateToggleButton() {
     });
 }
 
+// /**
+//  * Initializes the popup by displaying keywords and updating the toggle button.
+//  */
+// document.addEventListener("DOMContentLoaded", () => {
+//     displayKeywords();
+//     updateToggleButton();
+// });
+
 /**
- * Initializes the popup by displaying keywords and updating the toggle button.
+
+ * Updates the displayed count of keywords.
+
  */
+
+function updateKeywordCount() {
+
+    chrome.storage.sync.get({ keywords: [] }, (result) => {
+
+        const countElement = document.getElementById("keyword-count");
+
+        countElement.textContent = `Keywords: ${result.keywords.length}`;
+
+    });
+
+}
+
+
+
+/**
+
+ * Exports keywords to a text file.
+
+ */
+
+document.getElementById("export-keywords").addEventListener("click", () => {
+
+    chrome.storage.sync.get({ keywords: [] }, (result) => {
+
+        const blob = new Blob([result.keywords.join("\n")], { type: "text/plain" });
+
+        const url = URL.createObjectURL(blob);
+
+
+
+        const a = document.createElement("a");
+
+        a.href = url;
+
+        a.download = "keywords.txt";
+
+        document.body.appendChild(a);
+
+        a.click();
+
+        document.body.removeChild(a);
+
+        URL.revokeObjectURL(url);
+
+    });
+
+});
+
+
+
+/**
+
+ * Initializes the popup by displaying keywords, updating the toggle button, and setting up the keyword count.
+
+ */
+
 document.addEventListener("DOMContentLoaded", () => {
+
     displayKeywords();
+
     updateToggleButton();
+
+    updateKeywordCount();
+
 });
