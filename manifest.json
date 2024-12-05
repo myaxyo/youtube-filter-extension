@@ -6,8 +6,7 @@
     "version": "1.2.1",
     "permissions": [
         "storage",
-        "activeTab",
-        "scripting"
+        "activeTab"
     ],
     "background": {
         "service_worker": "background.js"
